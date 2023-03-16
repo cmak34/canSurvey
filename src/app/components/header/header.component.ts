@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  public login() {
+
+  }
+
+  public logout() {
+
+  }
 }

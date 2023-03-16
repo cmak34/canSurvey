@@ -9,5 +9,4 @@ import { Survey } from 'src/app/model/Survey';
 export class HomeComponent {
   public surveys: Survey[] = []
 
-
 }
