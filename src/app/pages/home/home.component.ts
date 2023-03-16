@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Survey } from 'src/app/model/Survey';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.less']
 })
 export class HomeComponent {
+  public surveys: Survey[] = []
+
 
 }

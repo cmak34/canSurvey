@@ -1,5 +1,28 @@
 <app-header></app-header>
 <div class="m-auto">
-    <p>home works!</p>
+    <nz-carousel>
+        <div nz-carousel-content>
+            <div class="banner" [ngStyle]="{'background-image': 'url(/assets/home.jpg)'}">
+                <div class="text-content">
+                    <h3>Welcome to CanSurvey~</h3>
+                    <p>Here you can conduct custom survey.</p>
+                </div>
+            </div>
+        </div>
+    </nz-carousel>
+    <section>
+        <h3>Survey</h3>
+        <p class="text-small">(Ordered by created date)</p>
+        <div nz-row nzGutter="8">
+            <div *ngFor="let survey of surveys;" nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6">
+                <h3>{{ survey?.title || "Untitled title" }}</h3>
+                <p>{{ survey?.desc || "" }}</p>
+                <a nz-button nzType="primary" [href]="'/survey/' + survey?.id">Enter</a>
+            </div>
+            <div *ngIf="surveys.length == 0" nz-col nzSpan="24" class="text-center">
+                <nz-empty></nz-empty> 
+            </div>
+        </div>
+    </section>
 </div>
 <app-footer></app-footer>
