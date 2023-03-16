@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "cansurvey-c0e35": {
+      "hosting": {
+        "canSurvey": [
+          "cansurvey-c0e35"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "cansurvey-c0e35"
+  }
+}
