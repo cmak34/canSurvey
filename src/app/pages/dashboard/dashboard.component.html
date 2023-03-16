@@ -1,5 +1,30 @@
 <app-header></app-header>
-<div class="m-auto">
-    <p>dashboard works!</p>
+<div class="m-auto page">
+    <h1>Dashboard</h1>
+    <button class="m-b-10" nz-button nzType="primary">
+        <span nz-icon nzType="plus" nzTheme="outline"></span> Add
+    </button>
+    <nz-table #basicTable [nzData]="surveys">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Desciption</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data">
+            <td>{{data.title}}</td>
+            <td>{{data.description}}</td>
+            <td>
+                <a>View</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a>Edit</a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a>Delete</a>
+            </td>
+          </tr>
+        </tbody>
+    </nz-table>
 </div>
 <app-footer></app-footer>
