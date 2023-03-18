@@ -4,7 +4,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { catchError, map, Observable, of } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import {RegisterComponent} from '../../components/register/register.component';
 import { EditSurveyComponent } from 'src/app/components/edit-survey/edit-survey.component';
 
 @Component({
