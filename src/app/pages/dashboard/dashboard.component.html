@@ -1,10 +1,10 @@
 <app-header></app-header>
 <div class="m-auto page">
     <h1>Dashboard</h1>
-    <button class="m-b-10" nz-button nzType="primary">
+    <button class="m-b-10 m-r-10" nz-button nzType="primary" (click)="add()">
         <span nz-icon nzType="plus" nzTheme="outline"></span> Add
     </button>
-    <nz-table #basicTable [nzData]="surveys">
+    <nz-table #basicTable [nzData]="(surveys$ | async) || []">
         <thead>
           <tr>
             <th>Title</th>

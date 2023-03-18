@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/compat/app'
+import firebase from 'firebase/compat/app';
 export interface Survey {
     id: string
     title: string
@@ -9,6 +9,7 @@ export interface Survey {
         options: any[]
         required: boolean
     }[]
-    createdTime: firebase.default.firestore.Timestamp
-    updatedTime: firebase.default.firestore.Timestamp
+    isPublished: boolean
+    createdTime: firebase.firestore.Timestamp
+    updatedTime: firebase.firestore.Timestamp
 }
