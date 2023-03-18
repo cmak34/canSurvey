@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/service/auth.service';
+import {NzNotificationService} from 'ng-zorro-antd/notification';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { LoginComponent } from '../login/login.component';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-header',
@@ -8,15 +12,44 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 export class HeaderComponent {
 
-  constructor(public auth: AuthService) {
-
-  }
+  constructor(
+    private modal: NzModalService,
+    private notification: NzNotificationService,
+    public auth: AuthService
+  ) {}
 
   public login() {
-
+    let modal = this.modal.create({
+      nzTitle: 'Login',
+      nzContent: LoginComponent,
+      nzFooter: null
+    })
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        this.notification.success('Success', 'You have successfully logged in!')
+      }
+    })
   }
 
-  public logout() {
+  public register() {
+    let modal = this.modal.create({
+      nzTitle: 'Register',
+      nzContent: RegisterComponent,
+      nzFooter: null
+    })
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        this.notification.success('Success', 'You have successfully registered!')
+      }
+    })
+  }
 
+  public async logout() {
+    try {
+      await this.auth.logout()
+    } catch (error) {
+      console.log(error)
+      this.notification.error('Error', `There was an error logging out: ${error}`)
+    }
   }
 }
