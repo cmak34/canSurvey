@@ -84,6 +84,7 @@ import { SurveyComponent } from './pages/survey/survey.component';
 import { EditSurveyComponent } from './components/edit-survey/edit-survey.component';
 import { EditQuestionComponent } from './components/edit-question/edit-question.component';
 import { ViewSurveyComponent } from './components/view-survey/view-survey.component';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 registerLocaleData(en);
 
@@ -165,7 +166,8 @@ registerLocaleData(en);
     provideFunctions(() => getFunctions())
   ],
   providers: [
-    { provide: NZ_I18N, useValue: en_US }
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase}
   ],
   bootstrap: [AppComponent]
 })
