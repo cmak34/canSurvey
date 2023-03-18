@@ -27,4 +27,8 @@ export class AuthService {
   public async logout() {
     await this.afAuth.signOut()
   }
+
+  public async register(email: string, password: string) {
+    await this.afAuth.createUserWithEmailAndPassword(email, password)
+  }
 }
