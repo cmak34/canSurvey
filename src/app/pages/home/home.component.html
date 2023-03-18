@@ -4,15 +4,14 @@
         <div nz-carousel-content>
             <div class="banner" [ngStyle]="{'background-image': 'url(/assets/home.jpg)'}">
                 <div class="text-content">
-                    <h3>Welcome to CanSurvey~</h3>
+                    <h1>Welcome to <span class="text-red text-serif">Can</span><span class="text-orange text-serif">Survey</span>~</h1>
                     <p>Here you can conduct custom survey.</p>
                 </div>
             </div>
         </div>
     </nz-carousel>
-    <section>
-        <h3>Survey</h3>
-        <p class="text-small">(Ordered by created date)</p>
+    <section class="m-t-10">
+        <h3>Exisint Survey <span class="text-small">(Ordered by created date)</span></h3>
         <div nz-row nzGutter="8">
             <div *ngFor="let survey of surveys;" nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6">
                 <h3>{{ survey?.title || "Untitled title" }}</h3>
@@ -20,7 +19,7 @@
                 <a nz-button nzType="primary" [href]="'/survey/' + survey?.id">Enter</a>
             </div>
             <div *ngIf="surveys.length == 0" nz-col nzSpan="24" class="text-center">
-                <nz-empty></nz-empty> 
+                <nz-empty nzNotFoundContent="Please login to add more survey"></nz-empty> 
             </div>
         </div>
     </section>
