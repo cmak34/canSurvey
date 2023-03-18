@@ -82,7 +82,6 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { SurveyComponent } from './pages/survey/survey.component';
 import { EditSurveyComponent } from './components/edit-survey/edit-survey.component';
-import { EditQuestionComponent } from './components/edit-question/edit-question.component';
 import { ViewSurveyComponent } from './components/view-survey/view-survey.component';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
@@ -99,7 +98,6 @@ registerLocaleData(en);
     RegisterComponent,
     SurveyComponent,
     EditSurveyComponent,
-    EditQuestionComponent,
     ViewSurveyComponent
   ],
   imports: [
