@@ -4,6 +4,7 @@ import {NzNotificationService} from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ import { RegisterComponent } from '../register/register.component';
 export class HeaderComponent {
 
   constructor(
+    private router: Router,
     private modal: NzModalService,
     private notification: NzNotificationService,
     public auth: AuthService
@@ -47,6 +49,7 @@ export class HeaderComponent {
   public async logout() {
     try {
       await this.auth.logout()
+      this.router.navigate(['/'])
     } catch (error) {
       console.log(error)
       this.notification.error('Error', `There was an error logging out: ${error}`)
