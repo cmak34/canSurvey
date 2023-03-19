@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Survey } from 'src/app/model/Survey';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { catchError, map, Observable, of } from 'rxjs';
@@ -13,9 +13,9 @@ import { EditSurveyComponent } from 'src/app/components/edit-survey/edit-survey.
 })
 export class DashboardComponent {
   public surveys$: Observable<Survey[]> = this.afs.collection<Survey>("surveys", ref => ref.orderBy("createdTime", "desc"))
-  .get()
+  .snapshotChanges()
   .pipe(
-    map((actions) => actions.docs.map(action => ({ ...action.data() as any, id: action.id } as Survey))),
+    map(actions => actions.map(action => ({ ...action.payload.doc.data() as any, id: action.payload.doc.id }))),
     catchError((error) => {
       console.error("Error getting surveys:", error);
       this.notification.error("Error", `Error getting surveys: ${error}`);
