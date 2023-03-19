@@ -6,7 +6,7 @@
         <div class="m-b-10" *ngFor="let result of results; let i = index">
             <nz-card>
                 <h3>Result {{ i + 1 }}</h3>
-                <h6>Created on: {{result.createdTime?.toDate() | date : "mediumDate"}}</h6>
+                <h6>Created on: {{result.createdTime.toDate() | date : "mediumDate"}}</h6>
                 <h6>Answer</h6>
                 <div *ngFor="let question of (survey.questions || []); let j = index" nz-row nzGutter="8">
                     <div class="text-small" nz-col [nzSpan]="15">
