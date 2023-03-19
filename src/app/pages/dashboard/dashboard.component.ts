@@ -5,6 +5,7 @@ import { catchError, map, Observable, of } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EditSurveyComponent } from 'src/app/components/edit-survey/edit-survey.component';
+import { ViewSurveyComponent } from 'src/app/components/view-survey/view-survey.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -59,6 +60,17 @@ export class DashboardComponent {
     })
   }
 
+  public viewSurvey(survey: Survey) {
+    this.modal.create({
+      nzTitle: `View ${survey.title || "Untitled Survey"}`,
+      nzContent: ViewSurveyComponent,
+      nzComponentParams: {
+        survey: survey
+      },
+      nzFooter: null
+    })
+  }
+
   public async deleteSurvey(id: string) {
     try {
       this.isDeleting = true
@@ -70,6 +82,5 @@ export class DashboardComponent {
        console.log(error)
       this.notification.error("error", `Error: ${error}`)
     }
-
   }
 }

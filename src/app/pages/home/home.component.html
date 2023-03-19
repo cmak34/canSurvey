@@ -25,7 +25,7 @@
                     <p>{{ survey?.questions?.length || '0'}}</p>
                     <h6>Created on</h6>
                     <p>
-                        {{ survey?.createdTime?.toDate() | date:'medium' }}
+                        {{ survey?.createdTime?.toDate() | date:'mediumDate' }}
                     </p>
                 </nz-card>
             </div>

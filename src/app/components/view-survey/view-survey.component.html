@@ -1,1 +1,30 @@
-<p>view-survey works!</p>
+<div *ngIf="survey; else display404">    
+    <h1>{{ survey.title }}</h1>
+    <h3 class="m-b-10">{{ survey.desc }}</h3>
+    <div *ngIf="(results$ | async) as results">
+        <nz-empty *ngIf="!results.length" class="center-block"></nz-empty>
+        <div class="m-b-10" *ngFor="let result of results; let i = index">
+            <nz-card>
+                <h3>Result {{ i + 1 }}</h3>
+                <h6>Created on: {{result.createdTime?.toDate() | date : "mediumDate"}}</h6>
+                <h6>Answer</h6>
+                <div *ngFor="let question of (survey.questions || []); let j = index" nz-row nzGutter="8">
+                    <div class="text-small" nz-col [nzSpan]="15">
+                        {{ j + 1 }}.
+                        {{ question.label || "Untitled Question" }}
+                    </div>
+                    <div class="text-small" nz-col [nzSpan]="9">
+                        {{ (result.answers[j]?.toDate) ? (result.answers[j]?.toDate() | date : 'mediumDate') : result.answers[j] }}
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+    </div>
+</div>
+<ng-template #display404>
+    <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the survey you visited does not exist anymore.">
+        <div nz-result-extra>
+            <button type="button" nz-button nzType="primary" (click)="close()">Close</button>
+        </div>
+    </nz-result>
+</ng-template>
