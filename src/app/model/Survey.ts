@@ -6,7 +6,7 @@ export interface Survey {
     questions: {
         label: string
         type: ("text"|"textarea"|"select"|"radio"|"checkbox"|"date")
-        options: any[]
+        options: ""
         required: boolean
     }[]
     isPublished: boolean

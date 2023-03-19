@@ -1,1 +1,89 @@
-<p>edit-survey works!</p>
+<form *ngIf="form" nz-form [formGroup]="form" nzLayout="vertical">
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Title</nz-form-label>
+        <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Please enter title (min 3 chars and max 50 chars)'">
+            <input nz-input nzSize="large" formControlName="title" placeholder="Title" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Description</nz-form-label>
+        <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Please enter description (min 3 chars and max 500 chars)'">
+            <nz-textarea-count [nzMaxCharacterCount]="500">
+                <textarea rows="4" formControlName="desc" nz-input></textarea>
+            </nz-textarea-count>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Publish</nz-form-label>
+        <nz-form-control [nzXs]="24">
+            <nz-radio-group formControlName="isPublished" nzButtonStyle="solid">
+              <label nz-radio-button [nzValue]="true">Yes</label>
+              <label nz-radio-button [nzValue]="false">No</label>
+            </nz-radio-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Questions</nz-form-label>
+        <div formArrayName="questions">
+            <div nz-row nzGutter="8" *ngFor="let question of asFormArray(form.get('questions')).controls; let i = index" [formGroupName]="i">
+                <div class="m-b-10" nz-col nzSpan="1">
+                    {{ i + 1 }}
+                </div>
+                <div class="m-b-10" nz-col nzSpan="17">
+                    <nz-form-control nzHasFeedback nzErrorTip="'Min 3 chars and max 50 chars'">
+                        <input nz-input nzSize="large" formControlName="label" placeholder="Enter a question" />
+                    </nz-form-control>
+                </div>
+                <div class="m-b-10" nz-col nzSpan="6" class="text-right">
+                    <button class="m-r-10" type="button" nz-button nzSize="small" nzShape="circle" [disabled]="i == 0" (click)="moveQuestion(i, -1)">
+                        <i nz-icon nzType="up"></i>
+                    </button>
+                    <button class="m-r-10" type="button" nz-button nzSize="small" nzShape="circle" [disabled]="i == asFormArray(form.get('questions')).controls.length - 1" (click)="moveQuestion(i, 1)">
+                        <i nz-icon nzType="down"></i>
+                    </button>
+                    <button type="button" nz-button nzSize="small" nzShape="circle" nzDanger nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="removeQuestion(i)">
+                        <i nz-icon nzType="delete"></i>
+                    </button>
+                </div>
+                <div class="m-b-10" nz-col nzSpan="1"></div>
+                <div class="m-b-10" nz-col [nzSpan]="9">
+                    <nz-form-control nz-tooltip nzTooltipTitle="Question Type">
+                        <nz-select formControlName="type" nzSize="large" (ngModelChange)="questionTypeChange(i, $event)">
+                            <nz-option nzValue="text" nzLabel="Text"></nz-option>
+                            <nz-option nzValue="textarea" nzLabel="Textarea"></nz-option>
+                            <nz-option nzValue="select" nzLabel="Select"></nz-option>
+                            <nz-option nzValue="radio" nzLabel="Radio"></nz-option>
+                            <nz-option nzValue="checkbox" nzLabel="Checkbox"></nz-option>
+                            <nz-option nzValue="date" nzLabel="Date"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </div>
+                <div class="m-b-10" nz-col [nzSpan]="8">
+                    <nz-form-control nz-tooltip nzTooltipTitle="Is required field">
+                        <nz-select formControlName="required" nzSize="large">
+                            <nz-option [nzValue]="true" nzLabel="Required"></nz-option>
+                            <nz-option [nzValue]="false" nzLabel="Not required"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </div>
+                <div class="m-b-10" nz-col nzSpan="6"></div>
+                <div class="m-b-10" nz-col nzSpan="1"></div>
+                <div class="m-b-10" nz-col nzSpan="17">
+                    <nz-form-control [hidden]="['radio', 'select'].indexOf(asFormArray(form.get('questions')).at(i).get('type')?.value) == -1">
+                        <textarea rows="4" formControlName="options" nz-input placeholder="Please enter an option on another line"></textarea>
+                    </nz-form-control>
+                </div>
+            </div>
+        </div>
+        <button type="button" nz-button (click)="addQuestion()">
+            <i nz-icon nzType="plus"></i>
+            <span>Add Question</span>
+        </button>
+    </nz-form-item>
+    <nz-form-item>
+        <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="primary" [disabled]="form.invalid" (click)="submit()">
+            {{survey ? 'Update' : 'Create'}}
+        </button>
+        <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="default" (click)="cancel()">Cancel</button>
+    </nz-form-item>
+</form>

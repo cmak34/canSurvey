@@ -11,7 +11,7 @@ import { EditSurveyComponent } from 'src/app/components/edit-survey/edit-survey.
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.less']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
   public surveys$: Observable<Survey[]> = this.afs.collection<Survey>("surveys", ref => ref.orderBy("createdTime", "desc"))
   .get()
   .pipe(
@@ -28,9 +28,6 @@ export class DashboardComponent implements OnInit {
     private notification: NzNotificationService,
     private afs: AngularFirestore,
   ) { }
-
-  ngOnInit(): void {
-  }
 
   public add() {
     let modal = this.modal.create({
