@@ -12,11 +12,22 @@
     </nz-carousel>
     <section class="m-t-10">
         <h3>Exisint Survey <span class="text-small">(Ordered by created date)</span></h3>
-        <div nz-row nzGutter="8">
-            <div *ngFor="let survey of surveys;" nz-col nzXs="12" nzSm="12" nzMd="6" nzLg="6" nzXl="6">
-                <h3>{{ survey?.title || "Untitled title" }}</h3>
-                <p>{{ survey?.desc || "" }}</p>
-                <a nz-button nzType="primary" [href]="'/survey/' + survey?.id">Enter</a>
+        <div *ngIf="((surveys$ | async) || []) as surveys" nz-row nzGutter="8">
+            <div *ngFor="let survey of surveys;" nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+                <nz-card class="w-100 m-b-10" nzHoverable [routerLink]="'/survey/' + survey?.id" [nzCover]="coverTpl">
+                    <ng-template #coverTpl>
+                        <img class="img-responsive center-block" [src]="'/assets/cansurvey-logo.jpg'" />
+                    </ng-template>
+                    <h2>{{ survey?.title || "Untitled title" }}</h2>
+                    <h6>Description</h6>
+                    <p>{{ survey?.desc || "" }}</p>
+                    <h6>Total Question</h6>
+                    <p>{{ survey?.questions?.length || '0'}}</p>
+                    <h6>Created on</h6>
+                    <p>
+                        {{ survey?.createdTime?.toDate() | date:'medium' }}
+                    </p>
+                </nz-card>
             </div>
             <div *ngIf="surveys.length == 0" nz-col nzSpan="24" class="text-center">
                 <nz-empty nzNotFoundContent="Please login to add more survey"></nz-empty> 
