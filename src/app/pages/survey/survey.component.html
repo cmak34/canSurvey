@@ -1,5 +1,57 @@
 <app-header></app-header>
 <div class="m-auto page">
-    <h1></h1>
+    <div nz-row *ngIf="survey; else display404">
+        <div nz-col nzXs="0" nzSm="0" nzMd="6" nzLg="6" nzXl="6"></div>
+        <div nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
+            <h1>{{ survey.title }}</h1>
+            <h3 class="m-b-10">{{ survey.desc }}</h3>
+            <form *ngIf="form" nz-form [formGroup]="form" nzLayout="vertical">
+                <nz-form-item *ngFor="let question of (survey.questions || []); let i = index;">
+                    <nz-form-label [nzXs]="24" [nzRequired]="question.required">
+                        {{ i + 1 }}.
+                        {{ question.label || "Untitled Question" }}
+                    </nz-form-label>
+                    <nz-form-control [nzXs]="24" nzHasFeedback>
+                        <ng-container [ngSwitch]="question.type">
+                            <div *ngSwitchCase="'textarea'">
+                                <textarea nz-input nzSize="large" [formControlName]="i" [placeholder]="question.label || 'Untitled Question'"></textarea>
+                            </div>
+                            <div *ngSwitchCase="'select'">
+                                <nz-select [formControlName]="i" nzSize="large">
+                                  <nz-option *ngFor="let option of question.options" [nzLabel]="option" [nzValue]="option"></nz-option>
+                                </nz-select>
+                            </div>
+                            <div *ngSwitchCase="'radio'">
+                                <nz-radio-group [formControlName]="i" nzSize="large">
+                                    <label *ngFor="let option of question.options" nz-radio-button [nzValue]="option">{{ option }}</label>
+                                </nz-radio-group>
+                            </div>
+                            <div *ngSwitchCase="'checkbox'">
+                                <label nz-checkbox [formControlName]="i"></label>
+                            </div>
+                            <div *ngSwitchCase="'date'">
+                                <nz-date-picker [formControlName]="i" nzSize="large"></nz-date-picker>
+                            </div>
+                            <div *ngSwitchDefault>
+                                <input nz-input nzSize="large" [formControlName]="i" [placeholder]="question.label || 'Untitled Question'" />
+                            </div>
+                        </ng-container>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="primary" [disabled]="form.invalid" (click)="submit()">
+                        Submit
+                    </button>
+                </nz-form-item>
+            </form>
+        </div>
+    </div>
+    <ng-template #display404>
+        <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the survey you visited does not exist anymore.">
+            <div nz-result-extra>
+              <button type="button" nz-button nzType="primary" routerLink="/">Back Home</button>
+            </div>
+        </nz-result>
+    </ng-template>
 </div>
 <app-footer></app-footer>
