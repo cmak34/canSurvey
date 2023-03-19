@@ -1,27 +1,41 @@
 <app-header></app-header>
 <div class="m-auto page">
     <h1>Dashboard</h1>
-    <button class="m-b-10 m-r-10" nz-button nzType="primary" (click)="add()">
+    <button class="m-b-10 m-r-10" nz-button nzType="primary" (click)="addSurvey()">
         <span nz-icon nzType="plus" nzTheme="outline"></span> Add
     </button>
-    <nz-table #basicTable [nzData]="(surveys$ | async) || []">
+    <nz-table #basicTable [nzData]="(surveys$ | async) || []" [nzScroll]="{x: '800px'}" class="table-top">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Desciption</th>
-            <th>Action</th>
+            <th nzWidth="60px"></th>
+            <th nzWidth="200px">Title</th>
+            <th nzWidth="200px">Desciption</th>
+            <th nzWidth="100px">Status</th>
+            <th nzWidth="100px">Questions</th>
+            <th nzWidth="140px">View Result</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of basicTable.data">
-            <td>{{data.title}}</td>
-            <td></td>
-            <td>
-                <a>View</a>
-                <nz-divider nzType="vertical"></nz-divider>
-                <a>Edit</a>
-                <nz-divider nzType="vertical"></nz-divider>
-                <a>Delete</a>
+          <tr *ngFor="let data of basicTable.data; let i = index">
+            <td nzWidth="60px">{{ i + 1 }}</td>
+            <td nzWidth="200px">
+              <button type="button" nz-button nzDanger nzShape="circle" nzSize="small" [nzLoading]="isDeleting" nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="deleteSurvey(data.id)">
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </button>
+              <a type="button" nz-button nzType="link" class="m-r-10" (click)="editSurvey(data)">{{data.title}}</a>
+            </td>
+            <td nzWidth="200px">
+              {{data.desc}}
+            </td>
+            <td nzWidth="100px">
+              <nz-tag *ngIf="data.isPublished" nzColor="green">Published</nz-tag>
+              <nz-tag *ngIf="!data.isPublished" nzColor="gray">Pending</nz-tag>
+            </td>
+            <td nzWidth="100px">
+              {{data.questions.length}}
+            </td>
+            <td nzWidth="140px">
+                <button type="button" nz-button nzSize="large" nzType="primary">Result</button>
             </td>
           </tr>
         </tbody>

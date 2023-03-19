@@ -12,6 +12,7 @@ import { EditSurveyComponent } from 'src/app/components/edit-survey/edit-survey.
   styleUrls: ['./dashboard.component.less']
 })
 export class DashboardComponent {
+  public isDeleting: boolean = false;
   public surveys$: Observable<Survey[]> = this.afs.collection<Survey>("surveys", ref => ref.orderBy("createdTime", "desc"))
   .snapshotChanges()
   .pipe(
@@ -29,9 +30,9 @@ export class DashboardComponent {
     private afs: AngularFirestore,
   ) { }
 
-  public add() {
+  public addSurvey() {
     let modal = this.modal.create({
-      nzTitle: 'Survey',
+      nzTitle: 'Add Survey',
       nzContent: EditSurveyComponent,
       nzFooter: null
     })
@@ -40,5 +41,35 @@ export class DashboardComponent {
         this.notification.success('Success', 'You have successfully added a survey!')
       }
     })
+  }
+
+  public editSurvey(survey: Survey) {
+    let modal = this.modal.create({
+      nzTitle: 'Edit Survey',
+      nzContent: EditSurveyComponent,
+      nzComponentParams: {
+        survey: survey
+      },
+      nzFooter: null
+    })
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        this.notification.success('Success', 'You have successfully edited a survey!')
+      }
+    })
+  }
+
+  public async deleteSurvey(id: string) {
+    try {
+      this.isDeleting = true
+      await this.afs.collection("surveys").doc(id).delete()
+      this.notification.success('Success', 'You have successfully deleted a survey!')
+      this.isDeleting = false
+    } catch (error) {
+      this.isDeleting = false
+       console.log(error)
+      this.notification.error("error", `Error: ${error}`)
+    }
+
   }
 }
