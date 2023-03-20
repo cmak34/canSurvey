@@ -2,24 +2,28 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
+import { filter, map } from 'rxjs';
 
 import { User } from 'src/app/model/User';
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  public user: firebase.User | null = null;
-  public userRole: string = 'user';
+  public user: firebase.User | null = null
+  public userProfile: User | null = null;
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(
+    private afAuth: AngularFireAuth, 
+    private afs: AngularFirestore
+  ) {
     this.getAuth();
   }
 
   private async getAuth() {
     this.afAuth.onAuthStateChanged(async (user) => {
       this.user = user;
-      if (user) {
-        this.userRole = await this.getUserRole(user?.email || '');
+      if (user && user?.uid) {
+        await this.getUserRole(user?.uid);
       }
     });
   }
@@ -38,20 +42,16 @@ export class AuthService {
       password
     );
     if (userCredential) {
-      this.afs.collection('users').add({
+      await this.afs.collection('users').doc(userCredential.user?.uid).set({
         email: email.trim(),
-        role: role.trim(),
-      });
+        role: role.trim()
+      })
     }
   }
-  public async getUserRole(email: string): Promise<string> {
-    const userQuery = this.afs.collection('users').ref.where('email', '==', email);
-    const userSnapshot = await userQuery.get();
-    if (!userSnapshot.empty) {
-      const userData = userSnapshot.docs[0].data() as User;
-      return userData.role;
-    } else {
-      return 'user';
-    }
+  public async getUserRole(uid: string): Promise<void> {
+    this.userProfile = await this.afs.collection('users').doc(uid).get().pipe(
+      filter((user) => user.exists),
+      map((user) => ({...user.data() as any, id: user.id }) as User)
+    ).toPromise() || null;
   }
 }

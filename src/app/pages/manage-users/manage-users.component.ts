@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/model/User';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { catchError, map, Observable, of } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { NzModalService } from 'ng-zorro-antd/modal';
-import * as admin from 'firebase-admin';
 
 @Component({
   selector: 'app-manage-users',
@@ -26,7 +23,6 @@ export class ManageUsersComponent {
   )
 
   constructor(
-    private modal: NzModalService,
     private notification: NzNotificationService,
     private afs: AngularFirestore,
   ) { }
@@ -34,16 +30,7 @@ export class ManageUsersComponent {
 
   public async deleteUser(id: string, email: string) {
     try {
-      // const app = admin.initializeApp({
-      //   credential: admin.credential.applicationDefault(),
-      // });
-      // this.isDeleting = true
-      //  // Delete the user account
-      //  const user = await admin.auth().getUserByEmail(email);
-      //  await admin.auth().deleteUser(user.uid);
- 
-      //  // Clean up the Firebase Admin SDK app
-      //  await app.delete();
+      this.isDeleting = true
       await this.afs.collection("users").doc(id).delete()
       this.notification.success('Success', 'You have successfully deleted a user!')
       this.isDeleting = false
