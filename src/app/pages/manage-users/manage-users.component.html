@@ -1,0 +1,32 @@
+<app-header></app-header>
+<div class="m-auto page">
+    <h1>Manage users</h1>
+    <nz-table #basicTable [nzData]="(users$ | async) || []" [nzScroll]="{x: '800px'}" class="table-top">
+        <thead>
+            <tr>
+                <th nzWidth="60px"></th>
+                <th nzWidth="200px">Delete</th>
+                <th nzWidth="200px">Email</th>
+                <th nzWidth="200px">Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data; let i = index">
+                <td nzWidth="60px">{{ i + 1 }}</td>
+                <td nzWidth="200px">
+                    <button type="button" nz-button nzDanger nzShape="circle" nzSize="small" [nzLoading]="isDeleting"
+                        nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="deleteUser(data.id, data.email)">
+                        <span nz-icon nzType="delete" nzTheme="outline"></span>
+                    </button>
+                </td>
+                <td nzWidth="200px">
+                    {{data.email}}
+                </td>
+                <td nzWidth="100px">
+                    {{data.role}}
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+<app-footer></app-footer>

@@ -24,6 +24,7 @@ export class RegisterComponent {
     this.form = this.fb.group({
       email: this.fb.control(null, [Validators.required, Validators.email]),
       password: this.fb.control(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+      role: this.fb.control(null, [Validators.required])
     })
   }
 
@@ -35,7 +36,7 @@ export class RegisterComponent {
     if (this.form?.valid && !this.isLoading) { 
       this.isLoading = true
       try {
-        await this.auth.register(this.form.value.email, this.form.value.password)
+        await this.auth.register(this.form.value.email, this.form.value.password, this.form.value.role)
         this.isLoading = false
         await this.modalRef.close(true)
       } catch (error) {

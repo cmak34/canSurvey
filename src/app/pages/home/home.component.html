@@ -11,7 +11,7 @@
         </div>
     </nz-carousel>
     <section class="m-t-10">
-        <h3>Exisint Survey <span class="text-small">(Ordered by created date)</span></h3>
+        <h3>Existing Survey <span class="text-small">(Ordered by created date)</span></h3>
         <div *ngIf="((surveys$ | async) || []) as surveys" nz-row nzGutter="8">
             <div *ngFor="let survey of surveys;" nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
                 <nz-card class="w-100 m-b-10" nzHoverable [routerLink]="'/survey/' + survey?.id" [nzCover]="coverTpl">
