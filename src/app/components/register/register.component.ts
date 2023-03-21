@@ -4,8 +4,6 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AuthService } from 'src/app/service/auth.service';
 
-const emailValidator = Validators.pattern(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(\.[a-zA-Z]{2,6})?)$/);
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -24,7 +22,7 @@ export class RegisterComponent implements OnInit{
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: this.fb.control(null, [Validators.required, emailValidator]),
+      email: this.fb.control(null, [Validators.required, Validators.pattern(AuthService.EMAIL_PATTERN)]),
       password: this.fb.control(null, [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
       role: this.fb.control(null, [Validators.required])
     })

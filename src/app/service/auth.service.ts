@@ -11,6 +11,7 @@ import { User } from 'src/app/model/User';
 export class AuthService {
   public user: firebase.User | null = null
   public userProfile: User | null = null;
+  public static EMAIL_PATTERN = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(\.[a-zA-Z]{2,6})?)$/
 
   constructor(
     private afAuth: AngularFireAuth, 
