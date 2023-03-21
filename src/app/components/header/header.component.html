@@ -16,7 +16,7 @@
             <button *ngIf="auth?.user" routerLink="/dashboard" class="m-r-10" nz-button nzType="text">
                 <span nz-icon nzType="dashboard" nzTheme="outline"></span> Dashboard
             </button>
-            <button *ngIf="auth?.userProfile?.role === 'admin'" routerLink="/manage-users" class="m-r-10" nz-button nzType="text">
+            <button *ngIf="auth?.user && auth?.userProfile?.role === 'admin'" routerLink="/manage-users" class="m-r-10" nz-button nzType="text">
                 <span nz-icon nzType="user" nzTheme="outline"></span> Manage Users
             </button>
             <button *ngIf="auth?.user" (click)="logout()" class="m-r-10" nz-button nzType="text">
