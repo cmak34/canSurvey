@@ -11,7 +11,7 @@ const emailValidator = Validators.pattern(/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.less']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit{
   public isLoading = false;
   public form?: FormGroup 
 
