@@ -4,6 +4,9 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { catchError, map, Observable, of } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { EditUserComponent } from 'src/app/components/edit-user/edit-user.component';
+
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -23,6 +26,7 @@ export class ManageUsersComponent {
   )
 
   constructor(
+    private modal: NzModalService,
     private notification: NzNotificationService,
     private afs: AngularFirestore,
   ) { }
@@ -39,5 +43,21 @@ export class ManageUsersComponent {
        console.log(error)
       this.notification.error("error", `Error: ${error}`)
     }
+  }
+
+  public editUser(user: User) {
+    let modal = this.modal.create({
+      nzTitle: 'Edit User',
+      nzContent: EditUserComponent,
+      nzComponentParams: {
+        user: user
+      },
+      nzFooter: null
+    })
+    modal.afterClose.subscribe((result) => {
+      if (result) {
+        this.notification.success('Success', 'You have successfully edited a user!')
+      }
+    })
   }
 }

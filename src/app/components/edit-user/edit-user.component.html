@@ -1,0 +1,17 @@
+<form *ngIf="form" nz-form [formGroup]="form" nzLayout="vertical">
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Role</nz-form-label>
+        <nz-radio-group formControlName="role">
+            <label nz-radio nzValue="admin">Admin</label>
+            <label nz-radio nzValue="user">User</label>
+        </nz-radio-group>
+    </nz-form-item>
+    <nz-form-item>
+        <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="primary"
+            [disabled]="form.invalid" (click)="submit()">
+            Update
+        </button>
+        <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="default"
+            (click)="cancel()">Cancel</button>
+    </nz-form-item>
+</form>

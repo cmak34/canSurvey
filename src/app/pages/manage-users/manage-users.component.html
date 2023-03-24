@@ -23,7 +23,7 @@
                     {{data.email}}
                 </td>
                 <td nzWidth="100px">
-                    {{data.role}}
+                    <a type="button" nz-button nzType="link" class="m-r-10" (click)="editUser(data)">{{data.role}}</a>
                 </td>
             </tr>
         </tbody>
