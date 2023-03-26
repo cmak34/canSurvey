@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.less'],
+  styleUrls: ['./header.component.less']
 })
 export class HeaderComponent {
   constructor(
@@ -43,10 +43,7 @@ export class HeaderComponent {
     });
     modal.afterClose.subscribe((result) => {
       if (result) {
-        this.notification.success(
-          'Success',
-          'You have successfully registered!'
-        );
+        this.notification.success('Success','You have successfully registered!');
       }
     });
   }
@@ -58,10 +55,7 @@ export class HeaderComponent {
       this.router.navigate(['/']);
     } catch (error) {
       console.log(error);
-      this.notification.error(
-        'Error',
-        `There was an error logging out: ${error}`
-      );
+      this.notification.error('Error',`There was an error logging out: ${error}`);
     }
   }
 }
