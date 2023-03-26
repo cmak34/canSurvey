@@ -12,18 +12,20 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of basicTable.data; let i = index">
-                <td nzWidth="60px">{{ i + 1 }}</td>
+                <td nzWidth="60px">
+                    {{ i + 1 }}
+                </td>
                 <td nzWidth="200px">
                     <button type="button" nz-button nzDanger nzShape="circle" nzSize="small" [nzLoading]="isDeleting"
-                        nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="deleteUser(data.id, data.email)">
+                        nz-popconfirm nzPopconfirmTitle="Are you sure?" (nzOnConfirm)="deleteUser(data.id)">
                         <span nz-icon nzType="delete" nzTheme="outline"></span>
                     </button>
                 </td>
                 <td nzWidth="200px">
-                    {{data.email}}
+                    {{data?.email || ""}}
                 </td>
                 <td nzWidth="100px">
-                    <a type="button" nz-button nzType="link" class="m-r-10" (click)="editUser(data)">{{data.role}}</a>
+                    <a type="button" nz-button nzType="link" class="m-r-10" (click)="editUser(data)">{{data?.role || ""}}</a>
                 </td>
             </tr>
         </tbody>

@@ -1,16 +1,9 @@
 import { Component, Input } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormGroup,
-  UntypedFormArray,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder,FormGroup,UntypedFormArray } from '@angular/forms';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { User } from 'src/app/model/User';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { serverTimestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-edit-user',

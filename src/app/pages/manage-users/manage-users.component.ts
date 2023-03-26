@@ -3,7 +3,6 @@ import { User } from 'src/app/model/User';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { catchError, map, Observable, of } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { EditUserComponent } from 'src/app/components/edit-user/edit-user.component';
 
@@ -31,8 +30,7 @@ export class ManageUsersComponent {
     private afs: AngularFirestore,
   ) { }
 
-
-  public async deleteUser(id: string, email: string) {
+  public async deleteUser(id: string) {
     try {
       this.isDeleting = true
       await this.afs.collection("users").doc(id).delete()
