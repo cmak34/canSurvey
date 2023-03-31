@@ -19,6 +19,7 @@
                 </div>
             </nz-card>
         </div>
+        <button *ngIf="results.length" nz-button nzType="primary" (click)="exportToCsv()">Export to CSV</button>
     </div>
 </div>
 <ng-template #display404>
