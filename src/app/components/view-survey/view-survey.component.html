@@ -2,6 +2,11 @@
     <h1>{{ survey.title }}</h1>
     <h3 class="m-b-10">{{ survey.desc }}</h3>
     <div *ngIf="(results$ | async) as results">
+        <div class="bg-statistics m-b-10">
+            <h3>Simple Statistics:</h3>
+            <p>Total respondents: {{ results?.length || "0" }}</p>
+        </div>
+        <h3>Results:</h3>
         <nz-empty *ngIf="!results.length" class="center-block"></nz-empty>
         <div class="m-b-10" *ngFor="let result of results; let i = index">
             <nz-card>
