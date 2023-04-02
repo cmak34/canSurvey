@@ -2,6 +2,10 @@
     <h1>{{ survey.title }}</h1>
     <h3 class="m-b-10">{{ survey.desc }}</h3>
     <div *ngIf="(results$ | async) as results">
+        <button class="m-b-10" type="button" [disabled]="!results.length" nz-button nzType="primary" (click)="exportToCsv()" [nzLoading]="isExporting">
+            <span nz-icon nzType="export" nzTheme="outline"></span>
+            CSV
+        </button>
         <nz-empty *ngIf="!results.length" class="center-block"></nz-empty>
         <div class="m-b-10" *ngFor="let result of results; let i = index">
             <nz-card>
@@ -19,7 +23,6 @@
                 </div>
             </nz-card>
         </div>
-        <button *ngIf="results.length" nz-button nzType="primary" (click)="exportToCsv()">Export to CSV</button>
     </div>
 </div>
 <ng-template #display404>
