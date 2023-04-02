@@ -1,38 +1,68 @@
 <app-header></app-header>
 <div class="m-auto page">
-    <nz-carousel>
-        <div nz-carousel-content>
-            <div class="banner" [ngStyle]="{'background-image': 'url(/assets/home.jpg)'}">
-                <div class="text-content">
-                    <h1>Welcome to <span class="text-red text-serif">Can</span><span class="text-orange text-serif">Survey</span>~</h1>
-                    <p>Here you can conduct custom survey.</p>
-                </div>
-            </div>
+  <nz-carousel>
+    <div nz-carousel-content>
+      <div
+        class="banner"
+        [ngStyle]="{ 'background-image': 'url(/assets/home.jpg)' }"
+      >
+        <div class="text-content">
+          <h1>
+            Welcome to <span class="text-red text-serif">Can</span
+            ><span class="text-orange text-serif">Survey</span>~
+          </h1>
+          <p>Here you can conduct custom survey.</p>
         </div>
-    </nz-carousel>
-    <section class="m-t-10">
-        <h3>Existing Survey <span class="text-small">(Ordered by created date)</span></h3>
-        <div *ngIf="((surveys$ | async) || []) as surveys" nz-row nzGutter="8">
-            <div *ngFor="let survey of surveys;" nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
-                <nz-card class="w-100 m-b-10" nzHoverable [routerLink]="'/survey/' + survey?.id" [nzCover]="coverTpl">
-                    <ng-template #coverTpl>
-                        <img class="img-responsive center-block" [src]="'/assets/cansurvey-logo.jpg'" />
-                    </ng-template>
-                    <h2>{{ survey?.title || "Untitled title" }}</h2>
-                    <h6>Description</h6>
-                    <p>{{ survey?.desc || "" }}</p>
-                    <h6>Total Question</h6>
-                    <p>{{ survey?.questions?.length || '0'}}</p>
-                    <h6>Created on</h6>
-                    <p>
-                        {{ survey?.createdTime?.toDate() | date:'mediumDate' }}
-                    </p>
-                </nz-card>
-            </div>
-            <div *ngIf="surveys.length == 0" nz-col nzSpan="24" class="text-center">
-                <nz-empty nzNotFoundContent="Please login to add more survey"></nz-empty> 
-            </div>
-        </div>
-    </section>
+      </div>
+    </div>
+  </nz-carousel>
+  <section class="m-t-10">
+    <h3>
+      Existing Survey <span class="text-small">(Ordered by created date)</span>
+    </h3>
+    <div *ngIf="(surveys$ | async) || [] as surveys" nz-row nzGutter="8">
+      <div
+        *ngFor="let survey of surveys"
+        nz-col
+        nzXs="24"
+        nzSm="24"
+        nzMd="12"
+        nzLg="12"
+        nzXl="12"
+      >
+        <nz-card
+          class="w-100 m-b-10"
+          nzHoverable
+          [routerLink]="'/survey/' + survey?.id"
+          [nzCover]="coverTpl"
+        >
+          <ng-template #coverTpl>
+            <img
+              class="img-responsive center-block"
+              [src]="'/assets/cansurvey-logo.jpg'"
+            />
+          </ng-template>
+          <h2>{{ survey?.title || "Untitled title" }}</h2>
+          <h6>Description</h6>
+          <p>{{ survey?.desc || "" }}</p>
+          <h6>Total Question</h6>
+          <p>{{ survey?.questions?.length || "0" }}</p>
+          <h6>Created on</h6>
+          <p>
+            {{ survey?.createdTime?.toDate() | date : "mediumDate" }}
+          </p>
+          <h6>Expired on</h6>
+          <p>
+            {{ calculateExpiredTime(survey) | date : "mediumDate" }}
+          </p>
+        </nz-card>
+      </div>
+      <div *ngIf="surveys.length == 0" nz-col nzSpan="24" class="text-center">
+        <nz-empty
+          nzNotFoundContent="Please login to add more survey"
+        ></nz-empty>
+      </div>
+    </div>
+  </section>
 </div>
 <app-footer></app-footer>
