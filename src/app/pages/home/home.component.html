@@ -12,7 +12,12 @@
                       </div>
                       <div nz-col [nzXs]="24" [nzSm]="1" [nzMd]="1" [nzLg]="1" [nzXl]="1"></div>
                       <div nz-col [nzXs]="24" [nzSm]="15" [nzMd]="15" [nzLg]="19" [nzXl]="19">
-                        <h2>{{ survey?.title || "Untitled title" }}</h2>
+                        <h2>
+                            {{ survey?.title || "Untitled title" }}
+                            <nz-tag *ngIf="calculateDaysBeforeExpired(survey) <= 0" nzColor="error">Expired</nz-tag>
+                            <nz-tag *ngIf="calculateDaysBeforeExpired(survey) <= 7 && calculateDaysBeforeExpired(survey) > 0" nzColor="warning">Expired soon ({{ calculateDaysBeforeExpired(survey) }} days left)</nz-tag>
+                            <nz-tag *ngIf="calculateDaysBeforeExpired(survey) > 7" nzColor="success">Active ({{ calculateDaysBeforeExpired(survey) }} days left)</nz-tag>
+                        </h2>
                         <p>{{ survey?.desc || "" }}</p>
                         <div nz-row nzGutter="8">
                             <div nz-col  [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="12" [nzXl]="12">
