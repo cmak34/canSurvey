@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-survey',
   templateUrl: './survey.component.html',
-  styleUrls: ['./survey.component.less'],
+  styleUrls: ['./survey.component.less']
 })
 export class SurveyComponent implements OnInit {
   public isLoading: boolean = false;
@@ -28,16 +28,16 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.loadSurvey(params['id'] || '');
+      this.loadSurvey(params["id"] || "");
     });
   }
 
   public async loadSurvey(surveyId: string) {
-    if (surveyId !== '') {
+    if (surveyId !== "") {
       try {
         this.isLoading = true;
         this.survey = await this.afs
-          .collection<Survey>('surveys')
+          .collection<Survey>("surveys")
           .doc(surveyId)
           .get()
           .pipe(
@@ -53,9 +53,9 @@ export class SurveyComponent implements OnInit {
                   `${index}`,
                   this.fb.control(
                     null,
-                    question.required && question.type != 'checkbox'
+                    question.required && question.type != "checkbox"
                       ? [Validators.required]
-                      : question.type == 'checkbox' && question.required
+                      : question.type == "checkbox" && question.required
                       ? [Validators.requiredTrue]
                       : []
                   )

@@ -7,12 +7,22 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less'],
+  styleUrls: ['./home.component.less']
 })
 export class HomeComponent {
+
+  public calculateExpiredTime(survey: Survey): Date {
+    const createdDate = survey.createdTime.toDate();
+    const expiredDate = new Date(
+      createdDate.getTime() + 2 * 7 * 24 * 60 * 60 * 1000
+    );
+    return expiredDate;
+  }
+
   public surveys$: Observable<Survey[]> = this.afs
     .collection<Survey>('surveys', (ref) =>
-      ref.orderBy('createdTime', 'desc').where('isPublished', '==', true)
+      ref.orderBy('createdTime', 'desc')
+      .where('isPublished', '==', true)
     )
     .snapshotChanges()
     .pipe(
@@ -33,12 +43,4 @@ export class HomeComponent {
     private notification: NzNotificationService,
     private afs: AngularFirestore
   ) {}
-
-  calculateExpiredTime(survey: Survey): Date {
-    const createdDate = survey.createdTime.toDate();
-    const expiredDate = new Date(
-      createdDate.getTime() + 2 * 7 * 24 * 60 * 60 * 1000
-    );
-    return expiredDate;
-  }
 }
