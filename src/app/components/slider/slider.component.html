@@ -1,0 +1,14 @@
+<nz-carousel (nzBeforeChange)="updateAnimation($event)" [nzAutoPlay]="false" [nzEffect]="'fade'" [nzAutoPlaySpeed]="3000" [nzDotPosition]="'bottom'" [nzEnableSwipe]="true" [nzDots]="true">
+    <div nz-carousel-content [ngStyle]="{'background-image': 'url(/assets/home.jpg)'}">
+        <div class="container aspect-ratio-3-1">
+            <div>
+                <div [@headingAnimation]="currentBanner == 0">
+                    <h1>Welcome to <span class="text-red text-serif">Can</span><span class="text-orange text-serif">Survey</span>~</h1>
+                </div>
+                <div [@subheadingAnimation]="currentBanner == 0">
+                    <p>Here you can conduct custom survey.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</nz-carousel>

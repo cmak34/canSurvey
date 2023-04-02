@@ -86,6 +86,7 @@ import { ViewSurveyComponent } from './components/view-survey/view-survey.compon
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { ManageUsersComponent } from './pages/manage-users/manage-users.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
+import { SliderComponent } from './components/slider/slider.component';
 
 registerLocaleData(en);
 
@@ -102,7 +103,8 @@ registerLocaleData(en);
     EditSurveyComponent,
     ViewSurveyComponent,
     ManageUsersComponent,
-    EditUserComponent
+    EditUserComponent,
+    SliderComponent
   ],
   imports: [
     BrowserModule,

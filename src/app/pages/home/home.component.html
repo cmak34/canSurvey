@@ -1,15 +1,6 @@
 <app-header></app-header>
 <div class="m-auto page">
-    <nz-carousel>
-        <div nz-carousel-content>
-            <div class="banner" [ngStyle]="{'background-image': 'url(/assets/home.jpg)'}">
-                <div class="text-content">
-                    <h1>Welcome to <span class="text-red text-serif">Can</span><span class="text-orange text-serif">Survey</span>~</h1>
-                    <p>Here you can conduct custom survey.</p>
-                </div>
-            </div>
-        </div>
-    </nz-carousel>
+    <app-slider></app-slider>
     <section class="m-t-10">
         <h3>Existing Survey <span class="text-small">(Ordered by created date)</span></h3>
         <div *ngIf="((surveys$ | async) || []) as surveys" nz-row nzGutter="8">
@@ -19,7 +10,8 @@
                       <div nz-col [nzXs]="24" [nzSm]="16" [nzMd]="8" [nzLg]="4" [nzXl]="4">
                         <img class="img-responsive center-block" [src]="'/assets/cansurvey-logo.jpg'" />
                       </div>
-                      <div nz-col [nzXs]="24" [nzSm]="16" [nzMd]="16" [nzLg]="20" [nzXl]="20">
+                      <div nz-col [nzXs]="24" [nzSm]="1" [nzMd]="1" [nzLg]="1" [nzXl]="1"></div>
+                      <div nz-col [nzXs]="24" [nzSm]="15" [nzMd]="15" [nzLg]="19" [nzXl]="19">
                         <h2>{{ survey?.title || "Untitled title" }}</h2>
                         <p>{{ survey?.desc || "" }}</p>
                         <div nz-row nzGutter="8">
