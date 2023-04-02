@@ -13,20 +13,25 @@
     <section class="m-t-10">
         <h3>Existing Survey <span class="text-small">(Ordered by created date)</span></h3>
         <div *ngIf="((surveys$ | async) || []) as surveys" nz-row nzGutter="8">
-            <div *ngFor="let survey of surveys;" nz-col nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12">
-                <nz-card class="w-100 m-b-10" nzHoverable [routerLink]="'/survey/' + survey?.id" [nzCover]="coverTpl">
-                    <ng-template #coverTpl>
+            <div *ngFor="let survey of surveys;" nz-col [nzSpan]="24">
+                <nz-card class="w-100 m-b-10" nzHoverable [routerLink]="'/survey/' + survey?.id">
+                    <div nz-row nzGutter="8">
+                      <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="4" [nzXl]="4">
                         <img class="img-responsive center-block" [src]="'/assets/cansurvey-logo.jpg'" />
-                    </ng-template>
-                    <h2>{{ survey?.title || "Untitled title" }}</h2>
-                    <h6>Description</h6>
-                    <p>{{ survey?.desc || "" }}</p>
-                    <h6>Total Question</h6>
-                    <p>{{ survey?.questions?.length || '0'}}</p>
-                    <h6>Created on</h6>
-                    <p>
-                        {{ survey?.createdTime?.toDate() | date:'mediumDate' }}
-                    </p>
+                      </div>
+                      <div nz-col [nzXs]="16" [nzSm]="16" [nzMd]="16" [nzLg]="20" [nzXl]="20">
+                        <h2>{{ survey?.title || "Untitled title" }}</h2>
+                        <p>{{ survey?.desc || "" }}</p>
+                        <div nz-row nzGutter="8">
+                            <div nz-col  [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="12" [nzXl]="12">
+                                <nz-statistic [nzValue]="((survey?.questions?.length || 0) | number)!" [nzTitle]="'Total Question'"></nz-statistic>
+                            </div>
+                            <div nz-col  [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="12" [nzXl]="12">
+                                <nz-statistic [nzValue]="(survey?.createdTime?.toDate() | date:'mediumDate') || ''" [nzTitle]="'Created on'"></nz-statistic>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
                 </nz-card>
             </div>
             <div *ngIf="surveys.length == 0" nz-col nzSpan="24" class="text-center">
