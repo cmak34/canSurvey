@@ -16,10 +16,10 @@
             <div *ngFor="let survey of surveys;" nz-col [nzSpan]="24">
                 <nz-card class="w-100 m-b-10" nzHoverable [routerLink]="'/survey/' + survey?.id">
                     <div nz-row nzGutter="8">
-                      <div nz-col [nzXs]="8" [nzSm]="8" [nzMd]="8" [nzLg]="4" [nzXl]="4">
+                      <div nz-col [nzXs]="24" [nzSm]="16" [nzMd]="8" [nzLg]="4" [nzXl]="4">
                         <img class="img-responsive center-block" [src]="'/assets/cansurvey-logo.jpg'" />
                       </div>
-                      <div nz-col [nzXs]="16" [nzSm]="16" [nzMd]="16" [nzLg]="20" [nzXl]="20">
+                      <div nz-col [nzXs]="24" [nzSm]="16" [nzMd]="16" [nzLg]="20" [nzXl]="20">
                         <h2>{{ survey?.title || "Untitled title" }}</h2>
                         <p>{{ survey?.desc || "" }}</p>
                         <div nz-row nzGutter="8">
