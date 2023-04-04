@@ -10,6 +10,7 @@ export interface Survey {
     required: boolean;
   }[];
   isPublished: boolean;
+  ownerId : String;
   createdTime: firebase.firestore.Timestamp;
   updatedTime: firebase.firestore.Timestamp;
 }

@@ -5,6 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Survey } from 'src/app/model/Survey';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { serverTimestamp } from 'firebase/firestore';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-edit-survey',
@@ -23,6 +24,7 @@ export class EditSurveyComponent {
     private fb: FormBuilder,
     private modalRef: NzModalRef,
     private notification: NzNotificationService,
+    private auth: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -67,6 +69,7 @@ export class EditSurveyComponent {
             title: this.form?.value.title?.trim(),
             desc: this.form?.value.desc?.trim(),
             isPublished: this.form?.value.isPublished,
+            ownerId: this.auth.user?.uid,
             questions: this.form?.value.questions.map((question: any) => ({
               label: question.label?.trim(),
               type: question.type?.trim(),

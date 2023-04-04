@@ -6,6 +6,7 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { Result } from 'src/app/model/Result';
 import { DatePipe } from '@angular/common';
+import { AuthService } from 'src/app/service/auth.service';
 
 @Component({
   selector: 'app-view-survey',
@@ -22,12 +23,14 @@ export class ViewSurveyComponent implements OnInit {
     private modalRef: NzModalRef,
     private notification: NzNotificationService,
     private afs: AngularFirestore,
+    private auth : AuthService
   ) {
 
   }
 
   ngOnInit(): void {
-    if (this.survey?.id) {
+    const currentUserId = this.auth.user?.uid;
+    if (currentUserId && this.survey?.id) {
       this.results$ = this.afs.collection<Result>("results", ref => ref.where("surveyId", "==", this.survey?.id).orderBy("createdTime", "desc"))
         .snapshotChanges()
         .pipe(
