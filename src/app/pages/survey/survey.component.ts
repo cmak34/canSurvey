@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./survey.component.less']
 })
 export class SurveyComponent implements OnInit {
+  public isInit = true;
   public isLoading: boolean = false;
   public survey?: Survey;
   public form?: FormGroup;
@@ -83,6 +84,7 @@ export class SurveyComponent implements OnInit {
         this.notification.error('Error', `Sorry, error has expired: ${error}`);
       } finally {
         this.isLoading = false;
+        this.isInit = false;
       }
     }
   }
@@ -100,6 +102,7 @@ export class SurveyComponent implements OnInit {
           answers: this.survey?.questions.map(
             (_question, index) => this.form?.value[`${index}`] || null
           ),
+          ownerId: this.survey?.ownerId,
           createdTime: serverTimestamp(),
         });
         this.isLoading = false;

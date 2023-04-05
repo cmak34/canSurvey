@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Survey } from 'src/app/model/Survey';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { catchError, map, Observable, of } from 'rxjs';
@@ -13,9 +13,10 @@ import { AuthService } from 'src/app/service/auth.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.less']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit, OnDestroy {
   public isDeleting: boolean = false;
   public surveys$: Observable<Survey[]> = of([]);
+  public subscription: any;
 
   constructor(
     private modal: NzModalService,
@@ -25,20 +26,36 @@ export class DashboardComponent implements OnInit{
   ) { }
 
   ngOnInit(): void {
-      const currentUserId = this.auth.user?.uid;
-      if (currentUserId){
-        this.surveys$ = this.afs.collection<Survey>("surveys",ref=> ref
-            .where("ownerId","==",currentUserId)
-            .orderBy("createdTime","desc"))
-        .snapshotChanges()
-        .pipe(
+    this.subscription = this.auth.profile$.subscribe((user) => {
+      if (user?.role == "admin") {
+        this.surveys$ = this.afs.collection<Survey>("surveys", ref => ref
+          .orderBy("createdTime", "desc"))
+          .snapshotChanges()
+          .pipe(
             map(actions => actions.map(action => ({ ...action.payload.doc.data() as any, id: action.payload.doc.id }))),
             catchError((error) => {
               console.error("Error getting surveys:", error);
               this.notification.error("Error", `Error getting surveys: ${error}`);
               return of([]);
             }));
-        }
+      } else if (user?.role == "user") {
+        this.surveys$ = this.afs.collection<Survey>("surveys", ref => ref
+          .where("ownerId", "==", user?.id)
+          .orderBy("createdTime", "desc"))
+          .snapshotChanges()
+          .pipe(
+            map(actions => actions.map(action => ({ ...action.payload.doc.data() as any, id: action.payload.doc.id }))),
+            catchError((error) => {
+              console.error("Error getting surveys:", error);
+              this.notification.error("Error", `Error getting surveys: ${error}`);
+              return of([]);
+            }));
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public addSurvey() {
@@ -72,7 +89,7 @@ export class DashboardComponent implements OnInit{
 
   public viewSurvey(survey: Survey) {
     this.modal.create({
-      nzTitle: `View ${survey.title || "Untitled Survey"}`,
+      nzTitle: undefined,
       nzContent: ViewSurveyComponent,
       nzComponentParams: {
         survey: survey
@@ -89,7 +106,7 @@ export class DashboardComponent implements OnInit{
       this.isDeleting = false
     } catch (error) {
       this.isDeleting = false
-       console.log(error)
+      console.log(error)
       this.notification.error("error", `Error: ${error}`)
     }
   }

@@ -40,7 +40,9 @@ export class EditSurveyComponent {
       })) || [], [Validators.required]),
       isPublished: this.fb.control((this.survey) ? this.survey?.isPublished : true, []),
     })
-    this.addQuestion()
+    if (!this.survey) {
+      this.addQuestion()
+    }
   }
 
   public async submit() {

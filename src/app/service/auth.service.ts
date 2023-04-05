@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
-import { filter, map } from 'rxjs';
+import { Observable, filter, map, of } from 'rxjs';
 
 import { User } from 'src/app/model/User';
 @Injectable({
@@ -10,11 +10,11 @@ import { User } from 'src/app/model/User';
 })
 export class AuthService {
   public user: firebase.User | null = null
-  public userProfile: User | null = null;
+  public profile$: Observable<User | null> = of(null);
   public static EMAIL_PATTERN = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(\.[a-zA-Z]{2,6})?)$/
 
   constructor(
-    private afAuth: AngularFireAuth, 
+    private afAuth: AngularFireAuth,
     private afs: AngularFirestore
   ) {
     this.getAuth();
@@ -24,7 +24,12 @@ export class AuthService {
     this.afAuth.onAuthStateChanged(async (user) => {
       this.user = user;
       if (user && user?.uid) {
-        await this.getUserRole(user?.uid);
+        this.profile$ = this.afs.collection('users').doc(user?.uid).snapshotChanges().pipe(
+          filter((user) => user.payload.exists),
+          map((user) => ({ ...user.payload.data() as any, id: user.payload.id }) as User)
+        )
+      } else {
+        this.profile$ = of(null);
       }
     });
   }
@@ -48,11 +53,5 @@ export class AuthService {
         role: role.trim()
       })
     }
-  }
-  public async getUserRole(uid: string): Promise<void> {
-    this.userProfile = await this.afs.collection('users').doc(uid).get().pipe(
-      filter((user) => user.exists),
-      map((user) => ({...user.data() as any, id: user.id }) as User)
-    ).toPromise() || null;
   }
 }

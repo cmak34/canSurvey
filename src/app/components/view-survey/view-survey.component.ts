@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Survey } from 'src/app/model/Survey';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -13,36 +13,61 @@ import { AuthService } from 'src/app/service/auth.service';
   templateUrl: './view-survey.component.html',
   styleUrls: ['./view-survey.component.less']
 })
-export class ViewSurveyComponent implements OnInit {
+export class ViewSurveyComponent implements OnInit, OnDestroy {
   @Input() public survey?: Survey;
   public results: Result[] = [];
   public results$: Observable<Result[]> = of([])
   public isExporting = false;
+  public subscription: any;
 
   constructor(
     private modalRef: NzModalRef,
     private notification: NzNotificationService,
     private afs: AngularFirestore,
-    private auth : AuthService
+    private auth: AuthService
   ) {
 
   }
 
   ngOnInit(): void {
-    const currentUserId = this.auth.user?.uid;
-    if (currentUserId && this.survey?.id) {
-      this.results$ = this.afs.collection<Result>("results", ref => ref.where("surveyId", "==", this.survey?.id).orderBy("createdTime", "desc"))
-        .snapshotChanges()
-        .pipe(
-          map(actions => actions.map(action => ({ ...action.payload.doc.data() as any, id: action.payload.doc.id }))),
-          tap(actions => this.results = actions || []),
-          catchError((error) => {
-            console.error("Error getting survey results:", error);
-            this.notification.error("Error", `Error getting survey results: ${error}`);
-            return of([]);
-          })
-        )
-    }
+    this.subscription = this.auth.profile$.subscribe(user => {
+      if (!this.survey?.id || !this.survey?.ownerId || !user?.id || (user?.role == "user" && this.survey?.ownerId != user?.id)) {
+        this.modalRef.close()
+      } else if (user.role == "admin") {
+        this.results$ = this.afs.collection<Result>("results", ref => ref
+          .where("surveyId", "==", this.survey?.id)
+          .orderBy("createdTime", "desc")
+        ).snapshotChanges()
+          .pipe(
+            map(actions => actions.map(action => ({ ...action.payload.doc.data() as any, id: action.payload.doc.id }))),
+            tap(actions => this.results = actions || []),
+            catchError((error) => {
+              console.error("Error getting survey results:", error);
+              this.notification.error("Error", `Error getting survey results: ${error}`);
+              return of([]);
+            })
+          )
+      } else if (user.role == "user" && this.survey?.ownerId == user?.id) {
+        this.results$ = this.afs.collection<Result>("results", ref => ref
+          .where("surveyId", "==", this.survey?.id)
+          .where("ownerId", "==", user?.id)
+          .orderBy("createdTime", "desc")
+        ).snapshotChanges()
+          .pipe(
+            map(actions => actions.map(action => ({ ...action.payload.doc.data() as any, id: action.payload.doc.id }))),
+            tap(actions => this.results = actions || []),
+            catchError((error) => {
+              console.error("Error getting survey results:", error);
+              this.notification.error("Error", `Error getting survey results: ${error}`);
+              return of([]);
+            })
+          )
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public close() {
@@ -50,7 +75,7 @@ export class ViewSurveyComponent implements OnInit {
   }
 
   public exportToCsv() {
-    try {      
+    try {
       if (this.results.length) {
         this.isExporting = true
         const header = this.survey?.questions.map(question => question.label).join(',') + '\n';

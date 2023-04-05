@@ -47,7 +47,7 @@
         </div>
     </div>
     <ng-template #display404>
-        <nz-result nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the survey you visited does not exist anymore.">
+        <nz-result *ngIf="!isInit" nzStatus="404" nzTitle="404" nzSubTitle="Sorry, the survey you visited does not exist anymore.">
             <div nz-result-extra>
               <button type="button" nz-button nzType="primary" routerLink="/">Back Home</button>
             </div>
