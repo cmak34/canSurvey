@@ -1,0 +1,47 @@
+<app-header></app-header>
+<div class="m-auto">
+    <div nz-row>
+        <div nz-col [nzXs]="24" [nzMd]="4"></div>
+        <div nz-col [nzXs]="24" [nzMd]="16">
+            <form *ngIf="form" nz-form [formGroup]="form" nzLayout="vertical">
+                <nz-form-item>
+                    <nz-form-label [nzXs]="24" nzRequired>User name</nz-form-label>
+                    <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Must be 2 - 50 characters'">
+                        <input nz-input nzSize="large" formControlName="userName" placeholder="User name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzXs]="24" nzRequired>First name</nz-form-label>
+                    <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Required'">
+                        <input nz-input nzSize="large" formControlName="firstName" placeholder="First name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzXs]="24" nzRequired>Last name</nz-form-label>
+                    <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Required'">
+                        <input nz-input nzSize="large" formControlName="lastName" placeholder="Last name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzXs]="24" nzRequired>DOB</nz-form-label>
+                    <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Required'">
+                        <nz-date-picker class="w-100" formControlName="dob" nzSize="large"></nz-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzXs]="24" nzRequired>Province</nz-form-label>
+                    <nz-form-control [nzXs]="24" nzHasFeedback [nzErrorTip]="'Required'">
+                        <input nz-input nzSize="large" formControlName="province" placeholder="Province" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="primary" [disabled]="form.invalid" (click)="submit()">
+                        Update
+                    </button>
+                </nz-form-item>
+            </form>
+        </div>
+        <div nz-col [nzXs]="24" [nzMd]="4"></div>
+    </div>    
+</div>
+<app-footer></app-footer>

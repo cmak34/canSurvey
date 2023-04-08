@@ -12,6 +12,7 @@ export class AuthService {
   public user: firebase.User | null = null
   public profile$: Observable<User | null> = of(null);
   public static EMAIL_PATTERN = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}(\.[a-zA-Z]{2,6})?)$/
+  userProfile: any;
 
   constructor(
     private afAuth: AngularFireAuth,

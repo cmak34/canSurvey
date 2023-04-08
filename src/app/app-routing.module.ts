@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SurveyComponent } from './pages/survey/survey.component';
 import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/compat/auth-guard';
 import { canActivateByRoles } from './guards/admin.guard';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 const redirectToHome = () => redirectUnauthorizedTo(['/']);
 
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [canActivateByRoles, AngularFireAuthGuard], data: { authGuardPipe: redirectToHome, roles: ["user", "admin"] }, pathMatch: 'full' },
   { path: 'manage-users', component: ManageUsersComponent, canActivate: [canActivateByRoles, AngularFireAuthGuard], data: { authGuardPipe: redirectToHome, roles: ["admin"] }, pathMatch: 'full' },
   { path: 'survey/:id', component: SurveyComponent, pathMatch: 'full' },
+  { path: 'user-profile', component: UserProfileComponent, canActivate: [canActivateByRoles, AngularFireAuthGuard], data: { authGuardPipe: redirectToHome, roles: ["user", "admin"] }, pathMatch: 'full' },
   { path: '**', redirectTo: '/' }
 ];
 

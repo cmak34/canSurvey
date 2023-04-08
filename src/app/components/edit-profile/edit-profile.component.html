@@ -1,0 +1,51 @@
+<form *ngIf="form" nz-form [formGroup]="form" nzLayout="vertical">
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>User Name</nz-form-label>
+        <nz-form-control>
+            <input nz-input formControlName="userName">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>First Name</nz-form-label>
+        <nz-form-control>
+            <input nz-input formControlName="firstName">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Last Name</nz-form-label>
+        <nz-form-control>
+            <input nz-input formControlName="lastName">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzXs]="24" nzRequired>Province</nz-form-label>
+        <nz-form-control>
+            <nz-dropdown-menu #menu="nzDropdownMenu" formControlName="Province">
+                <ul nz-menu>
+                    <li nz-menu-item (click)="log('Alberta')">Alberta</li>
+                    <li nz-menu-item (click)="log('British Columbia')">British Columbia</li>
+                    <li nz-menu-item (click)="log('Manitoba')">Manitoba</li>
+                    <li nz-menu-item (click)="log('New Brunswick')">New Brunswick</li>
+                    <li nz-menu-item (click)="log('New Foundland and Labrador')">New Foundland and Labrador</li>
+                    <li nz-menu-item (click)="log('Northwest Territories')">Northwest Territories</li>
+                    <li nz-menu-item (click)="log('Nova Scotia')">Nova Scotia</li>
+                    <li nz-menu-item (click)="log('Nunavut')">Nunavut</li>
+                    <li nz-menu-item (click)="log('Ontario')">Ontario</li>
+                    <li nz-menu-item (click)="log('Prince Edward Island')">Prince Edward Island</li>
+                    <li nz-menu-item (click)="log('Quebec')">Quebec</li>
+                    <li nz-menu-item (click)="log('Saskatchewan')">Saskatchewan</li>
+                    <li nz-menu-item (click)="log('Yukon')">Yukon</li>
+                </ul>
+            </nz-dropdown-menu>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <nz-date-picker *nzSpaceItem [nzMode]="mode" formControlName="birthDate"></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="primary" [disabled]="form.invalid" (click)="submit()">Update</button>
+        <button class="m-b-10" type="button" nz-button nzSize="large" nzBlock [nzLoading]="isLoading" nzType="default" (click)="cancel()">Cancel</button>
+    </nz-form-item>
+</form>
